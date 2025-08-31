@@ -19,6 +19,7 @@ class ShoppingCart extends Component
     {
         return Cart::content()->filter(function ($item) {
             return $item->qty <= $item->options['stock'];
+            
         })->sum(function ($item) {
             return $item->subtotal;
         });

@@ -1,7 +1,16 @@
-<div x-data="{
-    open: false,
-}">
-   <header class="bg-black">
+<div x-data="{ open: false }">
+    <header 
+        x-data="{ lastScroll: 0, visible: true }"
+        :class="visible ? 'fixed top-0 left-0 w-full z-50 bg-black transition-all duration-300' : '-translate-y-full fixed top-0 left-0 w-full z-50 bg-black transition-all duration-300'"
+        x-init="
+            lastScroll = window.pageYOffset;
+            window.addEventListener('scroll', () => {
+                let current = window.pageYOffset;
+                visible = current < 10 || current < lastScroll;
+                lastScroll = current;
+            });
+        "
+    >
         <x-container class="px-4 py-4">
             <div class="flex justify-between items-center space-x-8">
              
@@ -35,9 +44,9 @@
                                 </button>
 
                             @else
-                                <button class="text-2xl md:text-3xl">
+                                {{-- <button class="text-2xl md:text-3xl">
                                     <i class="fas fa-user text-white"></i>
-                                </button>
+                                </button> --}}
                             @endauth
 
                         </x-slot>
@@ -109,10 +118,12 @@
             </div> --}}
         </x-container>    
    </header>
+   <div class="h-20"></div>
 
    <div x-show="open" x-on:click="open = false" style="display: none" class="fixed top-0 left-0 inset-0 bg-black bg-opacity-25 z-10"></div>
 
-   <div x-show="open" style="display: none" class="fixed top-0 left-0 z-20">
+   <div x-show="open" style="display: none" class="fixed top-0 left-0 z-50">
+    
 
         <div class="flex">
 

@@ -66,7 +66,7 @@
             
                 <div class="col-span-1">
                     <figure>
-                        <img src="{{ $product->image }}" class="aspect-[1/1] w-full object-cover object-center" alt="">
+                        <img src="{{ $product->image }}" class="w-full h-full object-cover object-center transition-transform duration-200 hover:scale-105" alt="">
                     </figure>      
                     
                     {{-- <div class="text-sm">

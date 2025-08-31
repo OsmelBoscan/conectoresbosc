@@ -71,25 +71,29 @@
             <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
 
             @foreach ($products as $product)
-                <article class="bg-white shadow rounded overflow-hidden">
-
-                    <img src="{{ $product->image }}" class="w-full h-48 object-cover object-center">
-
-                    <div class="p-4">
-                        <h1 class="text-lg font-semibold text-gray-700 line-clamp-2 min-h-[56px] mb-2">
+                 <div class="bg-white rounded-lg shadow-md overflow-hidden mx-4 sm:mx-0 flex flex-col">
+            <a href="{{ route('products.show', $product) }}" class="block">
+                <div class="w-full aspect-square bg-gray-100 flex items-center justify-center">
+                    <img src="{{ $product->image }}"
+                         alt="{{ $product->name }}"
+                         class="w-full h-full object-cover object-center transition-transform duration-200 hover:scale-105" />
+                </div>
+            </a>
+            <div class="p-4 flex-1 flex flex-col justify-between">
+                <div>
+                    <h3 class="font-semibold text-lg mb-2">
+                        <a href="{{ route('products.show', $product) }}" class="hover:underline">
                             {{ $product->name }}
-                        </h1>
-
-                        <p class="text-gray-600 mb-4">
-                           $/ {{ $product->price }}
-                        </p>
-
-                        <a href="{{ route('products.show', $product) }}" class="btn btn-blue w-full">
-                            Ver Producto
                         </a>
-                    </div>
-
-                </article>
+                    </h3>
+                    <p class="text-gray-700 mb-4">${{ $product->price }}</p>
+                </div>
+                <a href="{{ route('products.show', $product) }}"
+                   class="inline-block bg-black text-white px-4 py-2 rounded hover:bg-gray-800 text-center transition">
+                    Ver producto
+                </a>
+            </div>
+        </div>
             @endforeach
 
             </div>

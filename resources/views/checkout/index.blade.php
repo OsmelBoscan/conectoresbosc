@@ -1,174 +1,105 @@
 <x-app-layout>
 
-    <div class="-mb-16 text-gray-700" x-data="{
-        pago: 1
-        }">
+    <div class="px-4 py-8 md:px-6 lg:px-8 xl:px-12 2xl:px-16 mx-auto max-w-7xl">
+        <div class="grid grid-cols-1 lg:grid-cols-[1fr_minmax(auto,_20rem)] gap-8 lg:gap-16">
 
-        <div class="grid grid-cols-1 lg:grid-cols-2">
+            <div class="bg-white p-6 md:p-8 rounded-lg shadow-lg">
+                <div class="flex items-center mb-6">
+                    <a href="#" class="text-gray-600 hover:text-indigo-600 flex items-center">
+                        <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 mr-1" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7" />
+                        </svg>
+                        <span class="font-semibold">Volver</span>
+                    </a>
+                </div>
 
-            <div class="col-span-1 bg-white">
-                <div class="lg:max-w-[40rem] py-12 px-4 lg:pr-8 sm:pl-6 lg:pl-8 ml-auto">
-                     
-                    <h1 class="text-2xl font-semibold mb-2">
-                        Pago
-                    </h1>
+                <h2 class="text-3xl font-semibold text-gray-800 mb-6">Finalizar Compra</h2>
 
-                    <div class="shadow rounded-lg overflow-hidden border border-gray-400">
-                        <ul class="divide-y divide-gray-400">
-                            <li>
-                                <label class="p-4 flex items-center">
+                <form action="{{ route('checkout.paid') }}" method="POST">
+                    @csrf
 
-                                    <input type="radio" x-model="pago" value="1">
+                    <div class="mb-8">
+                        <h3 class="text-xl font-semibold text-gray-700 mb-4">Detalles de facturación</h3>
+                        
+                        <div class="mb-4">
+                            <label for="delivery_type" class="block text-gray-700 font-medium mb-2">Tipo de Entrega. <span class="text-red-500">*</span></label>
+                            <select id="delivery_type" name="delivery_type" class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-indigo-500">
+                                <option value="Retiro en tienda">Retiro en tienda</option>
+                                <option value="Envío a domicilio">Envío a domicilio</option>
+                            </select>
+                        </div>
 
-                                    <span class="ml-2">
-                                        Tarjeta de Debito / Credito
-                                    </span>
-                                    <img class="h-6 ml-auto" src="https://codersfree.com/img/payments/credit-cards.png" alt="">
-                                </label>
+                        <div class="mb-4">
+                            <label for="name" class="block text-gray-700 font-medium mb-2">Nombre Cliente. <span class="text-red-500">*</span></label>
+                            <input type="text" id="name" name="name" class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-indigo-500" required>
+                        </div>
 
-                                <div class="p-4 bg-gray-100 text-center border-t border-gray-400"
-                                x-show="pago == 1">
-                                    <i class="fa-regular fa-credit-card text-9xl"></i>
-                                    <p class="mt-2">
-                                        Luego de hacer click en 'Pagar ahora', se abrira el checkout de PayPal, donde podras pagar con tu tarjeta de credito o debito.
-                                    </p>
-                                </div>
-                            </li>
+                        <div class="mb-4">
+                            <label for="phone_number" class="block text-gray-700 font-medium mb-2">Número de Teléfono. <span class="text-red-500">*</span></label>
+                            <input type="number" id="phone_number" name="phone_number" class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-indigo-500" required>
+                        </div>
 
-                            <li>
-                                <label class="p-4 flex items-center">
-
-                                    <input type="radio" x-model="pago" value="2">
-
-                                    <span class="ml-2">
-                                        Deposito Bancario o Pago Movil
-                                    </span>
-
-                                </label>
-                                <div class="p-4 bg-gray-100 flex justify-center border-t border-gray-400"
-                                x-cloak
-                                x-show="pago == 2">
-                                    <div>
-                                        <p>1. Pago Por Deposito o Transferencia Bancaria</p>
-                                        <p>- BCP soles: 197-55484-5854</p>
-                                        <p>- CCI: 002 - 197-55484-5854</p>
-                                        <p>- Razon social: Ecommerce</p>
-                                        <p>- RIF: 487546478</p>
-                                        <p>2. Pago Binance</p>
-                                        <p>- Binance I.D.</p>
-                                        <p>Enviar el comprobante</p>
-                                    </div>
-
-                                </div>
-                            </li>
-                        </ul>
+                        <div class="mb-4">
+                            <label for="email" class="block text-gray-700 font-medium mb-2">Correo electrónico. <span class="text-red-500">*</span></label>
+                            <input type="email" id="email" name="email" class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-indigo-500" required>
+                        </div>
                     </div>
 
-                </div>
+                    <hr class="my-6 border-gray-300">
+
+                    <div class="mb-8">
+                        <h3 class="text-xl font-semibold text-gray-700 mb-4">Información adicional</h3>
+                        
+                        <div class="mb-4">
+                            <label for="order_notes" class="block text-gray-700 font-medium mb-2">Notas del pedido (opcional)</label>
+                            <textarea id="order_notes" name="order_notes" rows="4" class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-indigo-500" placeholder="Notas sobre tu pedido, por ejemplo, notas especiales para la entrega."></textarea>
+                        </div>
+                    </div>
+
+                    <div class="flex justify-end">
+                        <button type="submit" class="bg-blue-600 text-white font-bold py-3 px-8 rounded-lg hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2">
+                            Finalizar Compra
+                        </button>
+                    </div>
+                </form>
             </div>
 
-            <div class="col-span-1 bg-gray-400">
-                <div class="lg:max-w-[40rem] py-12 px-4 lg:pl-8 sm:pr-6 lg:pr-8 mr-auto">
-                  
-                    <ul class="space-y-4 mb-4">
-                        @foreach ($content as $item)
-                            
-                        <li class="flex item-center space-x-4">
-
+            <div class="bg-white p-6 md:p-8 rounded-lg shadow-lg h-fit">
+                <h3 class="text-2xl font-semibold text-gray-800 mb-6">Resumen del Pedido</h3>
+                
+                <ul class="space-y-4 mb-4">
+                    @foreach ($content as $item)
+                        <li class="flex items-center space-x-4">
                             <div class="flex-shrink-0 relative">
-                                <img class="h-16 aspect-square" src="{{ $item->options->image }}" alt="">
-
+                                <img class="h-16 w-16 object-cover rounded-lg" src="{{ $item->options->image }}" alt="">
                                 <div class="flex justify-center items-center h-6 w-6 bg-gray-900 bg-opacity-70 rounded-full absolute -right-2 -top-2">
-                                    <span class="text-white font-semibold text-sm">
-                                        {{ $item->qty }}
-
-                                    </span>
-
+                                    <span class="text-white font-semibold text-sm">{{ $item->qty }}</span>
                                 </div>
                             </div>
 
                             <div class="flex-1">
-                                <p>
-                                    {{ $item->name }}
-                                </p>
+                                <p class="font-medium text-gray-800">{{ $item->name }}</p>
+                                <p class="text-sm text-gray-500">${{ $item->price }}</p>                                
+                                <p class="font-semibold text-gray-800">${{ $item->subtotal }}</p>
                             </div>
 
-                            <div class="flex-shrink-0">
-                                <p>
-                                    ${{ $item->price }}
-                                </p>
-                            </div>
                         </li>
+                    @endforeach
+                </ul>
 
-                        @endforeach
-                    </ul>
-
-                    <div class="flex justify-between ">
-                        <p>
-                            Subtotal
-                        </p>
-
-                        <p>
-                            ${{ $subtotal }}
-                        </p>
-
+                <div class="border-t border-gray-300 pt-4">
+                    <div class="flex justify-between font-semibold mb-2">
+                        <p class="text-gray-700">Subtotal:</p>
+                        <p class="text-gray-800">${{ $subtotal }}</p>
                     </div>
-
-                    <hr class="my-3">
 
                     <div class="flex justify-between mb-4">
-                        <p class="text-lg font-semibold">
-                            Total
-                        </p>
-                        <p>
-                            ${{ Cart::instance('shopping')->subtotal() }}
-                        </p>
+                        <p class="text-lg font-bold text-gray-800">Total:</p>
+                        <p class="text-lg font-bold text-gray-800">${{ Cart::instance('shopping')->subtotal() }}</p>
                     </div>
-
-                    <form action="{{ route('checkout.paid') }}" method="POST">
-                        @csrf
-                        <!-- Otros campos si los necesitas -->
-                        <button class="btn btn-blue w-full" type="submit">Finalizar compra</button>
-                    </form>
-
                 </div>
             </div>
-
         </div>
-
     </div>
-
-    {{-- @push('js')
-
-    <script type="text/javascript" src="{{ config('services.niubiz.url_js') }}" >
-    </script>
-        <script type="text/javascript">
-
-        document.addEventListener('DOMContentLoaded', function() {
-
-            let purchasenumber = Math.floor(Math.random() * 1000000000);
-            let amount = {{ Cart::instance('shopping')->subtotal() }};
-
-            VisanetCheckout.configure({
-            sessiontoken:'{{ $session_token }}',
-            channel:'web',
-            merchantid:"{{ config('services.niubiz.merchant_id') }}",
-            purchasenumber: purchasenumber,
-            amount: amount,
-            expirationminutes:'20',
-            timeouturl:'about:blank',
-            merchantlogo:'img/comercio.png',
-            formbuttoncolor:'#000000',
-            action:"{{ route('checkout.paid') }}?amount=" + amount + "&purchasenumber=" + purchasenumber,
-            complete: function(params) {
-            alert(JSON.stringify(params));
-                }
-            });
-
-        }); 
-
-        </script>
-        
-    @endpush --}}
 
 </x-app-layout>

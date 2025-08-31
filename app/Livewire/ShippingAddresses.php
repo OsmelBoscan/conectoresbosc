@@ -10,18 +10,18 @@ use App\Livewire\Forms\Shipping\EditAddressForm;
 class ShippingAddresses extends Component
 {
     public $addresses;
-
     public $newAddress = false;
-
     public CreateAddressForm $createAddress;
-
     public EditAddressForm $editAddress;
 
     public function mount()
-    {
-        $this->addresses = Address::where('user_id', auth()->id())
-            ->get();
+{
+    // Verifica si el usuario está autenticado
+    if (auth()->check()) {
+        // Lógica para usuarios logueados: obtener direcciones de la base de datos
+        $this->addresses = Address::where('user_id', auth()->id())->get();
 
+        // Rellena receiver_info con los datos del usuario logueado
         $this->createAddress->receiver_info = [
             'name' => auth()->user()->name,
             'last_name' => auth()->user()->last_name,
@@ -29,7 +29,14 @@ class ShippingAddresses extends Component
             'document_number' => auth()->user()->document_number,
             'phone' => auth()->user()->phone,     
         ];
+    } else {
+        // Lógica para invitados: obtener direcciones de la sesión
+        $this->addresses = collect(session('guest_addresses', []));
+        
+        // Inicializa receiver_info como un array vacío para que el invitado lo llene
+        $this->createAddress->receiver_info = [];
     }
+}
 
     public function store()
     {

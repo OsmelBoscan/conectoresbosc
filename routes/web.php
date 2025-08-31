@@ -28,17 +28,21 @@ Route::get('products/{product}', [ProductController::class, 'show' ])->name('pro
 Route::get('cart', [CartController::class, 'index'])->name('cart.index');
 
 Route::get('shipping', [ShippingController::class, 'index'])
-    ->middleware('auth')
     ->name('shipping.index');
 
 Route::get('checkout', [CheckoutController::class, 'index'])->name('checkout.index');
 
-Route::post('checkout/paid', [CheckoutController::class, 'paid'])
-->name('checkout.paid');
+Route::post('checkout', [CheckoutController::class, 'paid'])->name('checkout.paid');
 
-Route::get('gracias', function () {
-    return view('gracias');
-})->name('gracias');
+// Route::get('gracias', function () {
+//     return view('gracias');
+// })->name('gracias');
+
+Route::get('gracias', [CheckoutController::class, 'thanks'])
+    ->name('checkout.thanks');
+
+Route::get('orders/{order}/download-ticket', [CheckoutController::class, 'downloadTicket'])
+    ->name('order.download-ticket');
 
 
 
@@ -53,13 +57,13 @@ Route::middleware([
     })->name('dashboard');
 });
 
-Route::get('ticket', function(){
-   $order = Order::first(); 
+//  Route::get('ticket', function(){
+//     $order = Order::first(); 
 
-   $pdf = Pdf::loadView('orders.ticket', compact('order'))->setPaper('a5', 'landscape');
+//     $pdf = Pdf::loadView('orders.ticket', compact('order'))->setPaper('a5', 'landscape');
 
-   $pdf->save(storage_path('/app/public/tickets/ticket-' . $order->id . '.pdf'));
+//     $pdf->save(storage_path('/app/public/tickets/ticket-' . $order->id . '.pdf'));
 
-   $order->pdf_path = 'tickets/ticket-' . $order->id . '.pdf';
-   $order->save();
-});
+//     $order->pdf_path = 'tickets/ticket-' . $order->id . '.pdf';
+//     $order->save();
+//  });
