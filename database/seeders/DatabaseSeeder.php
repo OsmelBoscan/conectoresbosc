@@ -36,7 +36,7 @@ public function run(): void
          PermissionSeeder::class,
          RoleSeeder::class,
 
-        // // FamilySeeder::class,
+         FamilySeeder::class,
          OptionSeeder::class,
     ]);
 
