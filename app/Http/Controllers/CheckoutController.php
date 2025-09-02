@@ -7,6 +7,8 @@ use App\Models\Order;
 use App\Models\Variant;
 use Illuminate\Http\Request;
 use Barryvdh\DomPDF\Facade\Pdf;
+use App\Mail\OrderConfirmationMail;
+use Illuminate\Support\Facades\Mail;
 use Gloudemans\Shoppingcart\Facades\Cart;
 use Illuminate\Routing\Controller as BaseController;
 
@@ -68,6 +70,8 @@ class CheckoutController extends BaseController
             'order_id' => $order->id,
             'expires_at' => now()->addMinutes(5)->timestamp // La página expira en 5 minutos
         ]);
+
+        Mail::to($order->address['email'])->send(new OrderConfirmationMail($order));
 
         // 5. Redirigir a la vista de confirmación.
         return redirect()->route('checkout.thanks', ['orderId' => $order->id]);
